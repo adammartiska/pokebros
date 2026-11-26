@@ -124,6 +124,7 @@ input[type=range]{width:100%;accent-color:var(--pop);height:28px}
 .more{margin-inline-start:auto}
 fieldset{border:2.5px dashed var(--muted);border-radius:16px;padding:12px;margin:0;display:flex;flex-direction:column;gap:10px}
 legend{font-weight:700;padding:0 6px}
+#m2Box{display:flex;flex-direction:column;gap:10px}
 .navbar{display:flex;gap:10px;justify-content:space-between;margin-top:4px}
 .example{font-size:13px;color:var(--muted);margin:0}
 
@@ -226,6 +227,15 @@ legend{font-weight:700;padding:0 6px}
         <div class="f"><span>Energy cost</span><div class="orbs" id="cost"></div></div>
       </div>
       <label class="f">What it does <small>optional</small><textarea id="mText" maxlength="110" placeholder="Flip a coin. If heads, this move does 20 more damage."></textarea></label>
+      <fieldset><legend>Second move</legend>
+        <label class="switch"><input type="checkbox" id="m2On">Add a second move</label>
+        <div id="m2Box" hidden>
+          <div class="row"><label class="f">Move name<input type="text" id="m2Name" maxlength="24" placeholder="Big Finish" autocomplete="off"></label>
+            <div class="f"><span>Damage</span><div class="stepper"><button id="d2Minus" aria-label="Less damage">−</button><output id="dmg2">60</output><button id="d2Plus" aria-label="More damage">+</button></div></div></div>
+          <div class="f"><span>Energy cost</span><div class="orbs" id="cost2"></div></div>
+          <label class="f">What it does <small>optional</small><textarea id="m2Text" maxlength="110" placeholder="Discard an energy from this card."></textarea></label>
+        </div>
+      </fieldset>
     </div>
 
     <div class="pane" data-p="3">
@@ -236,15 +246,6 @@ legend{font-weight:700;padding:0 6px}
       <fieldset><legend>Ability</legend>
         <label class="f">Ability name<input type="text" id="abName" maxlength="22" placeholder="Morning Person" autocomplete="off"></label>
         <label class="f">What it does<textarea id="abText" maxlength="110" placeholder="Once per day, wake up everyone in the group chat."></textarea></label>
-      </fieldset>
-      <fieldset><legend>Second move</legend>
-        <label class="switch"><input type="checkbox" id="m2On">Add a second move</label>
-        <div id="m2Box" hidden>
-          <div class="row"><label class="f">Move name<input type="text" id="m2Name" maxlength="24" autocomplete="off"></label>
-            <div class="f"><span>Damage</span><div class="stepper"><button id="d2Minus" aria-label="Less damage">−</button><output id="dmg2">60</output><button id="d2Plus" aria-label="More damage">+</button></div></div></div>
-          <div class="f"><span>Energy cost</span><div class="orbs" id="cost2"></div></div>
-          <label class="f">What it does<textarea id="m2Text" maxlength="110"></textarea></label>
-        </div>
       </fieldset>
       <div class="row">
         <label class="f">Weakness<select id="weak"></select></label>
@@ -643,7 +644,7 @@ function goStep(s){const vs=visibleSteps();s=clamp(s,0,vs[vs.length-1]);state.st
   $$('.step').forEach(b=>{const i=+b.dataset.s;b.hidden=!vs.includes(i);b.setAttribute('aria-selected',i===s);b.classList.toggle('done',stepDone(i)&&i!==s)});
   $$('.pane').forEach(p=>p.classList.toggle('on',+p.dataset.p===s));const last=s===vs[vs.length-1];
   $('#back').disabled=s===0;$('#next').textContent=last?'Finish card':'Next';$('#xp').style.width=`${(vs.filter(stepDone).length)/vs.length*100}%`}
-function stepDone(i){const c=card();return [!!c.img,!!c.name.trim(),!!c.moves[0].name.trim(),!!(c.tagline||c.abName||c.flavor||c.by||c.moves[1].on||c.weak||c.res)][i]}
+function stepDone(i){const c=card();return [!!c.img,!!c.name.trim(),!!c.moves[0].name.trim(),!!(c.tagline||c.abName||c.flavor||c.by||c.weak||c.res)][i]}
 $('#steps').addEventListener('click',e=>{const b=e.target.closest('.step');if(b)goStep(+b.dataset.s)});
 $('#moreSw').addEventListener('change',e=>{state.more=e.target.checked;goStep(e.target.checked?3:Math.min(state.step,2));save()});
 $('#back').onclick=()=>goStep(state.step-1);

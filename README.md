@@ -9,7 +9,7 @@ A playful web editor for designing trading cards of your friends: upload a photo
 Playable prototype: a single self-contained page, `index.html`, with no build step.
 
 - Three card styles: **Classic** (default), **Retro** and **Modern**
-- Simple mode (photo → name, element, HP → one move) plus a **More options** switch for extras: title line, stage, ability, second move, weakness/resistance/retreat, flavor text, made by, shiny frame
+- Simple mode (photo → name, element, HP → move, with an optional second move) plus a **More options** switch for extras: title line, stage, ability, weakness/resistance/retreat, flavor text, made by, shiny frame
 - A deck needs at least 5 finished cards (photo + name) before export unlocks
 - The deck is saved in the browser's localStorage
 - Export:
